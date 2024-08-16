@@ -11,6 +11,8 @@ import "./assets/js/misc.js"
 import "./assets/js/dashboard.js"
 import "./assets/js/todolist.js"
 
+import "./assets/vendors/chart.js/Chart.min.js"
+import "./assets/js/jquery.cookie.js"
 
 
 import 'notivue/notification.css' // Only needed if using built-in <Notification />

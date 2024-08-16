@@ -107,17 +107,17 @@ const router = createRouter({
          },
          {
           'path':'create',
-          'name':'createaircraft',
+          'name':'createseatclass',
           component: () => import('@/views/seatclasses/create.vue')
          },
          {
           'path':'update/:id',
-          'name':'updateaircraft',
+          'name':'updateseatclass',
           component: () => import('@/views/seatclasses/update.vue')
          },
          {
           'path':'view/:id',
-          'name':'viewaircraft',
+          'name':'viewseatclass',
           component: () => import('@/views/seatclasses/view.vue')
          }
 
@@ -126,7 +126,75 @@ const router = createRouter({
 
       ]
     },
+    {
 
+      path: '/seats',
+      name:'seats',
+      
+      component: layout,
+      children:[
+
+         {
+          'path':'',          
+          name:'listseats',
+          component: () => import('@/views/seats/index.vue')
+         },
+         {
+          'path':'create',
+          'name':'createseat',
+          component: () => import('@/views/seats/create.vue')
+         },
+         {
+          'path':'update/:id',
+          'name':'updateseat',
+          component: () => import('@/views/seats/update.vue')
+         },
+         {
+          'path':'view/:id',
+          'name':'viewseat',
+          component: () => import('@/views/seats/view.vue')
+         }
+
+
+
+
+      ]
+    },
+
+    {
+
+      path: '/flights',
+      name:'flights',
+      
+      component: layout,
+      children:[
+
+         {
+          'path':'',          
+          name:'listflights',
+          component: () => import('@/views/flights/index.vue')
+         },
+         {
+          'path':'create',
+          'name':'createflight',
+          component: () => import('@/views/flights/create.vue')
+         },
+         {
+          'path':'update/:id',
+          'name':'updateflight',
+          component: () => import('@/views/flights/update.vue')
+         },
+         {
+          'path':'view/:id',
+          'name':'viewflight',
+          component: () => import('@/views/flights/view.vue')
+         }
+
+
+
+
+      ]
+    },
 
     {
 

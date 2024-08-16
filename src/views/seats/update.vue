@@ -40,8 +40,10 @@
         onModelData(data){
 
 
-            console.log(data);
+            
             this.model=data;
+
+            
             this.airlines=data.airlines;
             
 

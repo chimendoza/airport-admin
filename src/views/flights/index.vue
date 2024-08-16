@@ -7,12 +7,12 @@
       <div class="card">
         <div class="card-body">
 
-          <router-link class="btn btn-gradient-primary pull-right btn-sm" :to="'/seatclasses/create'"><i class="mdi mdi-plus"></i> Agregar clase</router-link>
+          <router-link class="btn btn-gradient-primary pull-right btn-sm" :to="'/flights/create'"><i class="mdi mdi-plus"></i> Registrar vuelo</router-link>
 
       
           <h4 class="card-title page-title"><span class="page-title-icon bg-gradient-primary text-white me-2"> 
             <i class="mdi mdi-account-star"></i> </span> 
-            Listando clases de asiento</h4>
+            Listando vuelos</h4>
       
 
       
@@ -20,20 +20,23 @@
 
 
 
-            <InteracTable :route="'/seatclasses?expand=airline,aircraft'">
+            <InteracTable :route="'/flights?expand=airline'">
                 <template v-slot:headers>
-                  <th>ID</th>
-                  <th>Nombre de la clase</th>
+                    <th>ID</th>
                     <th>Aerolínea</th>
                     <th>Aeronave</th>
+                    <th>Hora de salida</th>
+                    <th>Hora de llegada</th>
+                    <th>Destino</th>
                     
                 </template>
 
                 <template v-slot:row="item">
                     <td>{{ item.id}}</td>
-                    <td>{{ item.name}}</td>
                     <td>{{ item.airline.name}}</td>
-                    <td>{{ item.aircraft.code+' '+item.aircraft.model}}</td>
+                    <td>{{ item.aircraft.name}}</td>
+                    <td>{{ $date.format(item.departure_time)}}</td>
+                    <td>{{ $date.format(item.arrival_time)}}</td>
                 </template>
             
 
@@ -59,7 +62,7 @@
 
     export default {
 
-        name:"ListAirlines",
+        name:"Listaircrafts",
         components:{
             InteracTable
 
