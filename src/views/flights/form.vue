@@ -10,69 +10,81 @@
         <form class="form-sample" @submit.prevent="saveModel">
                       
                       <slot name="title">
-                        <p class="card-description"> Datos de la aeronave </p>
+                        <p class="card-description"> Datos del vuelo</p>
                       </slot>
                       <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Aerolínea</label>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="col-form-label">Destino</label>
 
-                            <div class="col-sm-9 col-relative">
-                              <FormControl :type="'select'" v-model="modelValue.airline_id" :options="airlines" :error="errors.airline_id" :required="true"/>
-                            </div>
+                            
+                              <FormControl :type="'select'" v-model="modelValue.destination_id" :error="errors.destination_id" :required="true" :options="destinations"/>
+                            
+
+
+                          </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="col-form-label">Aerolínea</label>
+
+                            
+                              <FormControl :type="'select'" v-model="modelValue.airline_id" :error="errors.airline_id" :required="true" :options="airlines"/>
+                            
+
+
+                          </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="col-form-label">Aeronave</label>
+
+                            
+                              <FormControl :type="'select'" v-model="modelValue.aircraft_id" :error="errors.aircraft_id" :required="true" :options="aircrafts"/>
+                            
 
 
                           </div>
                         </div>
-
-
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Modelo</label>
-
-                            <div class="col-sm-9 col-relative">
-                              <FormControl :type="'text'" v-model="modelValue.model" :error="errors.model" :required="true"/>
-                            </div>
-
-
-                          </div>
-                        </div>
-
 
 
                       </div>
-
 
 
 
                       <div class="row">
-
-
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Número de unidad</label>
+                            <label class="col-sm-3 col-form-label">Hora de salida</label>
 
                             <div class="col-sm-9 col-relative">
-                              <FormControl :type="'number'" v-model="modelValue.unit_number" :error="errors.unit_number" :required="true"/>
+                              <VueDatePicker v-model="modelValue.departure_time" :required="true"/>
+
+                              
                             </div>
 
 
                           </div>
-                        </div>
 
+
+                        </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Clave única</label>
+                            <label class="col-sm-3 col-form-label">Hora de llegada</label>
 
                             <div class="col-sm-9 col-relative">
-                              <FormControl :type="'text'" v-model="modelValue.code" :error="errors.code" :required="true"/>
+                              <VueDatePicker v-model="modelValue.arrival_time" language="es" :required="true"/>
                             </div>
 
 
                           </div>
+
+
                         </div>
-
-
 
 
                       </div>
@@ -80,33 +92,26 @@
 
 
 
+                    <div class="set-rates" v-if="rates">
+                      <p class="card-title">Tarifas</p>
 
-                      <div class="row">
+                      <div class="rates row">
 
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Capacidad de pasajeros</label>
+                        <div class="col-md-4">
 
-                            <div class="col-sm-9 col-relative">
-                              <FormControl :type="'number'" v-model="modelValue.capacity" :error="errors.capacity" :required="true"/>
-                            </div>
-
-
-                          </div>
-                        </div>
-
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Distribución de asientos</label>
-
-                            <div class="col-sm-9 col-relative">
-                              <FormControl :type="'select'" v-model="modelValue.seat_distribution" :error="errors.seat_distribution" :required="true" :options="distributions"/>
-                            </div>
-
+                          <div v-for="(rate,index) in rates" :key="index">
+                              <div class="form-group">
+                                <label>{{ rate.name }}</label>
+                                <input class="form-control" v-type="'number'" :value="get_flight_rate(rate.id)" @input="(value)=>add_flight_rate(rate.id,value)"/>
+                              </div>
 
                           </div>
                         </div>
+
+
                       </div>
+                    </div>
+
 
 
 
@@ -148,19 +153,33 @@
 
 <script>
 
+
+import DatePicker from 'vuejs3-datepicker';
     
 
 
     export default{
 
 
-      name:"AirlineForm",
+      name:"SeatClassForm",
+
+      components:{
+
+        DatePicker
+      },
 
       data(){
 
-        return {          
+        return {
           searching:false,
-          distributions:[{id:'4-4',name:'4 filas - pasillo - 4 filas'},{id:'3-3',name:'3 filas - pasillo - 3 filas'}]
+          aircrafts:[],
+          newrows:[],
+          aircraft:{},
+          rates:[],
+          flight_rates:[],
+          array_aircrafts:[],
+          initial_rates:[]
+          
 
         }
 
@@ -168,12 +187,18 @@
 
       props:{
 
-          airlines:{
 
+          airlines:{
             type:Array,
             default:[]
-            
+
           },
+          destinations:{
+            type:Array,
+            default:[]
+
+          },
+        
           modelValue:{
             type:Object,
             default:{}
@@ -184,6 +209,211 @@
           }
 
       },
+
+
+      computed:{
+
+
+
+
+            get_flight_rate(){
+
+
+
+              return function(id){
+
+
+                
+                if(this.modelValue.flightRates){
+
+                  
+                  let el=this.modelValue.flightRates.find(e=>e.seatclass_id==id);
+                  
+                  if(el){
+                    return el.price;
+                  }
+                }
+                return '';
+                
+              }
+            },
+
+
+      },
+
+
+
+      methods:{
+
+        add_flight_rate(id,input){
+
+
+
+
+
+            let value=input.target.value;
+
+              if(!this.modelValue.flight_rates){
+                this.modelValue.flight_rates=[];
+              }
+              let index=this.modelValue.flight_rates.findIndex(e=>e.seatclass_id==id);
+              if(index!=-1){
+               this.modelValue.flight_rates[index].price=value;
+              }else{
+               this.modelValue.flight_rates.push({seatclass_id:id,price:value});
+              }
+              
+
+        },
+
+
+
+  
+        fillRates(){
+
+
+          let id=this.modelValue.aircraft_id;
+
+
+          let aircraft=this.array_aircrafts.find(e=>e.id==id);
+
+          
+          
+          if(aircraft){
+
+            
+            
+            this.rates=aircraft.seatClasses;
+
+          }
+
+
+          
+        },
+
+
+        loadAircrafts(){
+
+            let aid=this.modelValue.airline_id;
+
+            let promise=this.$push.promise('Cargando aeronaves');
+
+            this.$api.get('/aircrafts?filter[airline_id]='+aid+'&expand=seatClasses').then(r=>{
+
+
+              this.makeAircrafts(r);
+
+
+
+
+
+            }).catch(r=>{
+
+
+            }).finally(()=>{
+
+              this.$push.clearAll();
+
+
+            });
+
+
+        },
+
+        makeAircrafts(r){
+
+
+          let aircrafts=[],item;
+
+          
+
+
+          for(var i in r.data){
+
+            item=r.data[i];
+
+            aircrafts.push({'id':item.id,'name':item.code+' '+item.model});
+
+
+          }
+
+
+          this.aircrafts=aircrafts;
+          this.array_aircrafts=r.data;
+
+        },
+
+
+
+
+      },
+
+
+
+      watch:{
+
+        'modelValue.airline_id':{
+
+
+          handler:function(){
+
+
+              this.loadAircrafts();
+
+          },deep:true
+
+
+        },
+
+        'modelValue.aircraft_id':{
+
+
+            handler:function(){
+
+
+              
+
+                this.fillRates();
+              
+
+            },deep:true
+
+
+          },
+
+
+          'array_aircrafts':{
+
+
+              handler:function(){
+
+
+                
+
+                  this.fillRates();
+                
+
+              },deep:true
+
+
+          },
+
+
+          'modelValue.flightRates':{
+
+            handler:function(v){
+
+
+              this.modelValue.flight_rates=v;
+
+            },
+            deep:true
+
+          }
+
+      }
+
+
 
 
 

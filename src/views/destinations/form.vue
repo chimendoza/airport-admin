@@ -10,50 +10,38 @@
         <form class="form-sample" @submit.prevent="saveModel">
                       
                       <slot name="title">
-                        <p class="card-description"> Datos de la clase </p>
+                        <p class="card-description"> Datos del destino</p>
                       </slot>
                       <div class="row">
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label class="col-form-label">Nombre</label>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Nombre</label>
 
-                            
+                            <div class="col-sm-9 col-relative">
                               <FormControl :type="'text'" v-model="modelValue.name" :error="errors.name" :required="true"/>
-                            
+                            </div>
+
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Ciudad</label>
+
+                            <div class="col-sm-9 col-relative">
+                              <FormControl :type="'text'" v-model="modelValue.city" :error="errors.city" :required="true"/>
+                            </div>
 
 
                           </div>
 
 
                         </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label class="col-form-label">Aerolínea</label>
 
-                            
-                              <FormControl :type="'select'" v-model="modelValue.airline_id" :error="errors.airline_id" :required="true" :options="airlines"/>
-                            
-
-
-                          </div>
-
-
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <label class="col-form-label">Aeronave</label>
-
-                            
-                              <FormControl :type="'select'" v-model="modelValue.aircraft_id" :error="errors.aircraft_id" :required="true" :options="aircrafts"/>
-                            
-
-
-                          </div>
-                        </div>
 
 
                       </div>
-
 
 
 
@@ -99,16 +87,12 @@
     export default{
 
 
-      name:"SeatClassForm",
+      name:"DestinationForm",
 
       data(){
 
-        return {
+        return {          
           searching:false,
-          aircrafts:[],
-          newrows:[],
-          aircraft:{}
-          
 
         }
 
@@ -116,12 +100,6 @@
 
       props:{
 
-
-          airlines:{
-            type:Array,
-            default:[]
-
-          },
         
           modelValue:{
             type:Object,
@@ -133,83 +111,6 @@
           }
 
       },
-
-      methods:{
-
-
-
-        loadAircrafts(){
-
-            let aid=this.modelValue.airline_id;
-
-            let promise=this.$push.promise('Cargando aeronaves');
-
-            this.$api.get('/aircrafts?filter[airline_id]='+aid).then(r=>{
-
-
-              this.makeAircrafts(r);
-
-
-
-
-
-            }).catch(r=>{
-
-
-            }).finally(()=>{
-
-              this.$push.clearAll();
-
-
-            });
-
-
-        },
-
-        makeAircrafts(r){
-
-
-          let aircrafts=[],item;
-
-
-          for(var i in r.data){
-
-            item=r.data[i];
-
-            aircrafts.push({'id':item.id,'name':item.code+' '+item.model});
-
-
-          }
-
-
-          this.aircrafts=aircrafts;
-
-        },
-
-
-
-
-      },
-
-
-      watch:{
-
-        'modelValue.airline_id':{
-
-
-          handler:function(){
-
-
-              this.loadAircrafts();
-
-          },deep:true
-
-
-        }
-
-      }
-
-
 
 
 

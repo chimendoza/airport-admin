@@ -195,6 +195,40 @@ const router = createRouter({
 
       ]
     },
+    {
+
+      path: '/destinations',
+      name:'destinations',
+      
+      component: layout,
+      children:[
+
+         {
+          'path':'',          
+          name:'listdestinations',
+          component: () => import('@/views/destinations/index.vue')
+         },
+         {
+          'path':'create',
+          'name':'createdestination',
+          component: () => import('@/views/destinations/create.vue')
+         },
+         {
+          'path':'update/:id',
+          'name':'updatedestination',
+          component: () => import('@/views/destinations/update.vue')
+         },
+         {
+          'path':'view/:id',
+          'name':'viewdestination',
+          component: () => import('@/views/destinations/view.vue')
+         }
+
+
+
+
+      ]
+    },
 
     {
 

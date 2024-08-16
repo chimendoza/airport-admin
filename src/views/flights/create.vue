@@ -1,6 +1,6 @@
 <template>
 
-    <formComponent v-model="model" :airlines="airlines" :errors="_errors">
+    <formComponent v-model="model" :errors="_errors" :airlines="airlines" :destinations="destinations">
         <template v-slot:submit>
             <SubmitButton label="Crear"/>
         </template>
@@ -24,8 +24,9 @@ export default{
 
         return {
 
-            model:{active:1,trash:0},
-            airlines:[]
+            model:{active:1,trash:0,flight_rates:[]},
+            airlines:[],
+            destinations:[]
 
         }
     },
@@ -33,14 +34,16 @@ export default{
     mounted(){
 
 
-        this.$api.get('/aircrafts/catalogs').then(r=>{
+        this.$api.get('/flights/catalogs').then(r=>{
 
+            
             this.airlines=r.data.airlines;
+            this.destinations=r.data.destinations;
 
 
         })
 
-    }
+}
 
 
 

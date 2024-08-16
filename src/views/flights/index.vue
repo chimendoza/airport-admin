@@ -20,23 +20,33 @@
 
 
 
-            <InteracTable :route="'/flights?expand=airline'">
+            <InteracTable :route="'/flights?expand=airline,aircraft,destination'">
                 <template v-slot:headers>
-                    <th>ID</th>
+                  <th>ID</th>
                     <th>Aerolínea</th>
                     <th>Aeronave</th>
+                    <th>Destino</th>
                     <th>Hora de salida</th>
                     <th>Hora de llegada</th>
-                    <th>Destino</th>
                     
                 </template>
 
                 <template v-slot:row="item">
                     <td>{{ item.id}}</td>
                     <td>{{ item.airline.name}}</td>
-                    <td>{{ item.aircraft.name}}</td>
-                    <td>{{ $date.format(item.departure_time)}}</td>
-                    <td>{{ $date.format(item.arrival_time)}}</td>
+                    <td>{{ item.aircraft.code+' '+item.aircraft.model}}</td>
+                    <td>{{ item.destination.name}}</td>
+                    <td>{{ $date.format(item.departure_time) }}</td>
+                    <td>{{ $date.format(item.arrival_time) }}</td>
+                    
+                </template>
+
+                <template v-slot:update="item">
+
+
+                    <router-link :to="'/flights/update/'+item.id+'?expand=flightRates'" class="action-link"><i class="mdi mdi-pencil"></i></router-link>
+
+
                 </template>
             
 
@@ -62,7 +72,7 @@
 
     export default {
 
-        name:"Listaircrafts",
+        name:"ListAirlines",
         components:{
             InteracTable
 

@@ -139,7 +139,7 @@
     export default{
 
 
-      name:"AirlineForm",
+      name:"SeatForm",
 
       data(){
 

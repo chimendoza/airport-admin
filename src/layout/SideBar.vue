@@ -41,7 +41,21 @@
               </div>
             </li>
 
+            <li class="nav-item" v-if="$allow('destinations.index')">
+              <router-link to="/destinations" class="nav-link">
+                <span class="menu-title">Destinos</span>
+                <i class="mdi mdi-wallet-travel menu-icon"></i>
+              </router-link>
+            </li>
 
+
+
+            <li class="nav-item" v-if="$allow('flights.index')">
+              <router-link to="/flights" class="nav-link">
+                <span class="menu-title">Vuelos</span>
+                <i class="mdi mdi-calendar-clock menu-icon"></i>
+              </router-link>
+            </li>
 
 
             <li class="nav-item" v-if="$allow('customers.index')">

@@ -154,7 +154,7 @@
     export default{
 
 
-      name:"AirlineForm",
+      name:"AircraftForm",
 
       data(){
 

@@ -29,6 +29,8 @@ import SubmitButton from '@/components/SubmitButton.vue';
 import FormControl from '@/components/FormControl.vue';
 import Tip from '@/components/Tip.vue';
 
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 
 
@@ -422,6 +424,9 @@ app.mixin(bootstrapMixin);
 app.component('SubmitButton',SubmitButton);
 app.component('FormControl',FormControl);
 app.component('Tip',Tip);
+
+app.component('VueDatePicker', VueDatePicker);
+
 
 app.config.globalProperties.$api = api;
 app.config.globalProperties.$date = date;

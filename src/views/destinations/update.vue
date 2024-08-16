@@ -1,6 +1,6 @@
 <template>
 
-    <formComponent v-model="model" :errors="$root._errors" :airlines="airlines" :destinations="destinations">
+    <formComponent v-model="model" :errors="$root._errors">
         <template v-slot:submit>
             <SubmitButton label="Guardar"/>
         </template>
@@ -22,29 +22,12 @@
         },
 
 
-
-    data(){
-
-        return {
-            airlines:[],
-            destinations:[],
-            model:{flight_rates:[]}
-        
-        }
-
-    },
-
-
-
     methods:{
 
 
         onModelData(data){
 
-
             this.model=data;
-            this.airlines=data.airlines;
-            this.destinations=data.destinations;
             
 
         }
