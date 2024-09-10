@@ -3,7 +3,7 @@ import axios from 'axios';
 import router from '../router'
 
 const DEV_API='http://localhost:8007/api/v1';
-const PROD_API='https://yourdomain.com/api/v1';
+const PROD_API='https://airportback.sdektun.com/api/v1';
 
 
 const apiUrl=process.env.NODE_ENV === 'development'?DEV_API:PROD_API;

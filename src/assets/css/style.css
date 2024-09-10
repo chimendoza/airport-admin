@@ -1839,7 +1839,7 @@
 .big-action{background:#fafafa;display: block;padding:10px;color:#000 !important;cursor:pointer;text-align: center;text-decoration: none;}
 .title-primary{color:#33c1db}
 
-.login-wrapper{background: url(@/assets/images/fondo.png) !important;background-size:cover !important}
+.login-wrapper{background: #fff;background-size:cover !important}
 
 .calendar-light{
   position: relative;
